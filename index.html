@@ -1,1 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Sahil 💗</title>
 
+<style>
+/* BODY */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+    background: url('images/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    overflow-x: hidden;
+}
+
+/* INTRO PAGE */
+#intro {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 182, 193, 0.85); /* soft pastel overlay */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    transition: opacity 0.8s ease;
+}
+
+#intro h2 { font-size: 2.5rem; margin-bottom: 10px; }
+#intro h3 { font-size: 1.8rem; margin-bottom: 30px; }
+
+button {
+    padding: 12px 25px;
+    margin: 10px;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: transform 0.3s, background 0.3s;
+}
+
+#yesBtn {
+    background: #ff85b3;
+    color: white;
+}
+#yesBtn:hover { background: #ff4d88; }
+
+#noBtn {
+    background: #ffe3ef;
+    color: #ff4d88;
+    position: relative;
+}
+
+/* MAIN PAGE */
+.container {
+    display: none;
+    padding: 20px;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 800px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* SLIDESHOW */
+.slideshow img {
+    width: 90%;
+    max-width: 400px;
+    border-radius: 15px;
+    display: none;
+    margin: 20px auto;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    animation: fadeZoom 1s ease forwards;
+}
+
+@keyframes fadeZoom {
+    from { opacity:0; transform: scale(0.85);}
+    to { opacity:1; transform: scale(1);}
+}
+
+/* HEARTS */
+.heart {
+    position: fixed;
+    top: -20px;
+    font-size: 22px;
+    animation: fall linear infinite;
+    z-index: 10;
+    pointer-events: none;
+}
+
+@keyframes fall {
+    to { transform: translateY(100vh) rotate(360deg); }
+}
+
+/* MESSAGE */
+#message {
+    font-size: 1.3rem;
+    white-space: pre-wrap;
+    margin-top: 20px;
+}
+
+/* FOOTER */
+.footer {
+    color: #ff4d6d;
+    font-weight: bold;
+    margin-top: 30px;
+}
+
+/* MUSIC BUTTON */
+#musicBtn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #ff85b3;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    z-index: 20;
+    cursor: pointer;
+}
+
+@media(max-width:600px){
+    #intro h2 { font-size:2rem; }
+    #intro h3 { font-size:1.4rem; }
+    #message { font-size:1rem; }
+    .slideshow img { width: 90%; }
+}
+</style>
+</head>
+<body>
+
+<!-- AUDIO -->
+<audio id="song" loop>
+    <source src="music/ennasona.mp3" type="audio/mpeg">
+</audio>
+<button id="musicBtn">🎵</button>
+
+<!-- INTRO -->
+<div id="intro">
+    <h2>Hey Sahil 💗</h2>
+    <h3>Will You Be My Valentine? 💗</h3>
+    <button id="yesBtn">YES 💗</button>
+    <button id="noBtn">NO 😢</button>
+</div>
+
+<!-- MAIN PAGE -->
+<div class="container" id="main">
+    <h1>For My Sahil 💗</h1>
+    <h3>Our Memories 💗</h3>
+    <div class="slideshow">
+        <img class="slides" src="images/photo1.jpg" alt="Photo 1">
+        <img class="slides" src="images/photo2.jpg" alt="Photo 2">
+        <img class="slides" src="images/photo3.jpg" alt="Photo 3">
+        <img class="slides" src="images/photo4.jpg" alt="Photo 4">
+        <img class="slides" src="images/photo5.jpg" alt="Photo 5">
+        <img class="slides" src="images/photo6.jpg" alt="Photo 6">
+        <img class="slides" src="images/photo7.jpg" alt="Photo 7">
+    </div>
+
+    <p id="message"></p>
+
+    <p class="footer">
+        Forever Yours,<br>
+        Sanika 💗
+    </p>
+</div>
+
+<script>
+let size = 18;
+
+// NO button moves away
+const noBtn = document.getElementById("noBtn");
+noBtn.addEventListener("mouseover", () => {
+    const x = (Math.random() - 0.5) * 200;
+    const y = (Math.random() - 0.5) * 100;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+});
+
+// YES button grows slightly
+const yesBtn = document.getElementById("yesBtn");
+yesBtn.addEventListener("mouseover", () => {
+    size += 2;
+    yesBtn.style.fontSize = size + "px";
+});
+
+// OPEN SITE IMMEDIATELY
+yesBtn.addEventListener("click", () => {
+    document.getElementById("intro").style.display = "none";
+    document.getElementById("main").style.display = "block";
+    playSong();
+    startHearts();
+    startSlideshow();
+    startTyping();
+});
+
+// PLAY SONG
+function playSong() {
+    const audio = document.getElementById("song");
+    audio.play();
+}
+
+// HEARTS EFFECT
+function startHearts() {
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "💗";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+    }, 400);
+}
+
+// SLIDESHOW
+let slideIndex = 0;
+function startSlideshow() {
+    const slides = document.getElementsByClassName("slides");
+    for (let i = 0; i < slides.length; i++) slides[i].style.display = "none";
+    slideIndex++;
+    if (slideIndex > slides.length) slideIndex = 1;
+    slides[slideIndex-1].style.display = "block";
+    setTimeout(startSlideshow, 2500);
+}
+
+// TYPING EFFECT
+const text = `Dear Sahil 💗
+
+You are the best part of my life.  
+Every photo here reminds me how lucky I am to have you.
+
+You make me smile without trying.  
+You make my world brighter.
+
+No matter what happens,  
+I will always choose YOU.
+
+I love you forever 💗`;
+let i = 0;
+function startTyping() {
+    if (i < text.length) {
+        document.getElementById("message").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(startTyping, 40);
+    }
+}
+
+// MUSIC BUTTON TOGGLE
+const musicBtn = document.getElementById("musicBtn");
+const song = document.getElementById("song");
+musicBtn.addEventListener("click", () => {
+    if(song.paused){ song.play(); musicBtn.textContent="🎵"; }
+    else { song.pause(); musicBtn.textContent="🔇"; }
+});
+</script>
+</body>
+</html>
